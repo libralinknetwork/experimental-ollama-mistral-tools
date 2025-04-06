@@ -1,0 +1,38 @@
+{
+  "name": "experimental-ollama-mistral-tools",
+  "version": "1.0.0",
+  "description": "``` npm login npm whoami",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest --config ./jest.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:libralinknetwork/libralink-client-web3js.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/libralinknetwork/libralink-client-web3js/issues"
+  },
+  "homepage": "https://github.com/libralinknetwork/libralink-client-web3js#readme",
+  "dependencies": {
+    "@libralinknetwork/libralink-client-web3js": "^1.0.2",
+    "axios": "^1.8.4",
+    "uuid": "^9.0.1",
+    "web3": "^4.16.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.4",
+    "@types/jest": "^29.5.14",
+    "@types/uuid": "^9.0.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.1",
+    "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": []
+}
