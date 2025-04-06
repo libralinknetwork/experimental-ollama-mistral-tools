@@ -11,6 +11,8 @@ ollama pull mistral
 
 nvm 20
 npm i
+
+/* Unskip test in llm_simulated_tool_func_call.test.ts, i.e. replace it.skip() -> it() */
 npm test
 ```
 
