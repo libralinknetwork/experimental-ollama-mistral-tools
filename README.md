@@ -1,13 +1,16 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/3mRSbP89jqQQqkK78hQhCE/KLVNQAapD8pwdaV4jm7XYa/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/3mRSbP89jqQQqkK78hQhCE/KLVNQAapD8pwdaV4jm7XYa/tree/main)
+
 ## Testing Instructions
 
+```
 brew install ollama
 brew services start ollama
-
 ollama pull mistral
 
 nvm 20
 npm i
 npm test
+```
 
 ## Test
 
