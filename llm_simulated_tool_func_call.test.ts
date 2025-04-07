@@ -33,8 +33,8 @@ async function toolFuncGetLibraBalance(): Promise<string> {
 
     const envelopeContent: EnvelopeContent = {
         entity: request,
-        pub: localState.address,
-        sigReason: 'IDENTITY'
+        pub: null,
+        sigReason: 'NONE'
     }
     
     const envelope: Envelope = {
@@ -45,16 +45,19 @@ async function toolFuncGetLibraBalance(): Promise<string> {
     }    
 
     const signedEnvelope = SignatureHelper.sign(envelope, localState.address, localState.pk, 'IDENTITY');
+    const requestJson = JSON.stringify(signedEnvelope);
+    console.log(`Server request: ${requestJson}`);
+
     const response = await axios.post<object>(
         'http://localhost:8080/account/balance',
         JSON.stringify(signedEnvelope),
         { headers: { 'Content-Type': 'application/json' }}
     );
 
-    const json = JSON.stringify(response.data);
-    console.log(`Server response: ${json}`);
+    const responseJson = JSON.stringify(response.data);
+    console.log(`Server response: ${responseJson}`);
 
-    return `Show this JSON to end user: ${json}`;
+    return `Show this JSON to end user: ${responseJson}`;
 }
 
 // 💬 Prompt that simulates tool calling
