@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:libralinknetwork/libralink-client-web3js.git"
+    "url": "git+ssh://git@github.com:libralinknetwork/experimental-ollama-mistral-tools.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/libralinknetwork/libralink-client-web3js/issues"
+    "url": "https://github.com/libralinknetwork/experimental-ollama-mistral-tools/issues"
   },
-  "homepage": "https://github.com/libralinknetwork/libralink-client-web3js#readme",
+  "homepage": "https://github.com/libralinknetwork/experimental-ollama-mistral-tools#readme",
   "dependencies": {
     "@libralinknetwork/libralink-client-web3js": "^1.0.3",
     "axios": "^1.8.4",
