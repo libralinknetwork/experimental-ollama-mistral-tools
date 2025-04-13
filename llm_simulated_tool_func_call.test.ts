@@ -46,22 +46,22 @@ async function toolFuncGetLibraBalance(): Promise<string> {
 
     const signedEnvelope = SignatureHelper.sign(envelope, localState.address, localState.pk, 'IDENTITY');
     const requestJson = JSON.stringify(signedEnvelope);
-    console.log(`Server request: ${requestJson}`);
+    console.log(`TRACE - Server request: ${requestJson}`);
 
     const response = await axios.post<object>(
-        'http://localhost:8080/account/balance',
+        'http://localhost:8080/protocol/agent/balance',
         JSON.stringify(signedEnvelope),
         { headers: { 'Content-Type': 'application/json' }}
     );
 
     const responseJson = JSON.stringify(response.data);
-    console.log(`Server response: ${responseJson}`);
+    console.log(`TRACE - Server response: ${responseJson}`);
 
-    return `Show this JSON to end user: ${responseJson}`;
+    return `Extract available and pending amount from json. Present to user: ${responseJson}`;
 }
 
-// 💬 Prompt that simulates tool calling
-const instructions = `
+/* 💬 Prompt that simulates tool calling */
+const simulatedTools = `
 You are an AI assistant with access to a function:
 
 #1 Function: toolFuncGetLibraKey
@@ -92,46 +92,62 @@ async function callMistral(prompt: string): Promise<string> {
   return response.data.response;
 }
 
+function parseJson(value: string) {
+  try {
+      return JSON.parse(value);
+
+  } catch (e) {
+      return undefined;
+  }
+}
+
 async function execPrompt(userPromts: string): Promise<void> {
 
-    const output = await callMistral(instructions + '\n' + userPromts);
-    console.log("Mistral Output: \n", output);
-  
-    // Try to parse JSON block
-    const match = output.match(/\{[\s\S]*\}/);
-    if (!match) {
-      console.log("No function call detected.");
-      return;
-    }
-    const toolCall = JSON.parse(match[0]);
+    console.log(`Your Request to Mistral: ${userPromts}`);
+    const output = await callMistral(simulatedTools + '\nUSER: ' + userPromts);
 
-    try {
-      let toolFuncReplyToMistralPrompt = '';
-      if (toolCall.function === 'toolFuncGetLibraKey') {
-        const toolFuncReply = await toolFuncGetLibraKey();
-        toolFuncReplyToMistralPrompt = `Tell to user that Public Key to register is '${toolFuncReply}'`;
-
-      } else if (toolCall.function === 'toolFuncGetLibraBalance') {
-        const toolFuncReply = await toolFuncGetLibraBalance();
-        toolFuncReplyToMistralPrompt = `${toolFuncReply}`;
-
-      } else {
-        console.log("Unknown function:", toolCall.function);
+    /* Try to parse JSON block */
+    const jsonOutput = parseJson(output);
+    if (!!jsonOutput) {
+      const match = output.match(/\{[\s\S]*\}/);
+      if (!match) {
+        console.log("No function call detected.");
         return;
       }
 
-      const output = await callMistral(toolFuncReplyToMistralPrompt);
-      console.log("Mistral Output: \n", output);
+      const toolCall = JSON.parse(match[0]);
 
-    } catch (err) {
-      console.error("Failed to parse function call:", err);
+      try {
+        let toolFuncReplyToMistralPrompt = '';
+        if (toolCall.function === 'toolFuncGetLibraKey') {
+          const toolFuncReply = await toolFuncGetLibraKey();          
+          toolFuncReplyToMistralPrompt = `Tell to user that Public Key to register is '${toolFuncReply}'`;
+  
+        } else if (toolCall.function === 'toolFuncGetLibraBalance') {
+          const toolFuncReply = await toolFuncGetLibraBalance();
+          toolFuncReplyToMistralPrompt = `${toolFuncReply}`;
+  
+        } else {
+          console.log("Unknown function:", toolCall.function);
+          return;
+        }
+  
+        const output = await callMistral(toolFuncReplyToMistralPrompt);
+        console.log("Mistral Answer: \n", output);
+  
+      } catch (err) {
+        console.error("Failed to parse function call:", err);
+      }
+    } else {
+
+      console.log("Mistral Answer: \n", output);      
     }    
 }
 
 describe('Mistral LLM - Simulated Tool Call Test', () => {
     it.skip('Call Mistral', async () => {
 
-        await execPrompt("USER: Can you give me the new Libra key?");
-        await execPrompt("USER: What is my balance?");
+        await execPrompt("Can you give me the new Libra key?");
+        await execPrompt("What is my balance?");
     }, 60000);
 });
