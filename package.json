@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/libralinknetwork/experimental-ollama-mistral-tools#readme",
   "dependencies": {
-    "@libralinknetwork/libralink-client-web3js": "^1.0.3",
+    "@libralinknetwork/libralink-client-web3js": "^1.5.0",
     "axios": "^1.8.4",
     "uuid": "^9.0.1",
     "web3": "^4.16.0"

@@ -28,13 +28,15 @@ async function toolFuncGetLibraBalance(): Promise<string> {
     const request: GetBalanceRequest = {
         objectType: 'GetBalanceRequest',
         id: uuid(),
-        pub: localState.address
+        address: localState.address
     } 
 
     const envelopeContent: EnvelopeContent = {
         entity: request,
-        pub: null,
-        sigReason: 'NONE'
+        address: null,
+        pubKey: null,
+        sigReason: 'NONE',
+        algorithm: null        
     }
     
     const envelope: Envelope = {
@@ -145,7 +147,7 @@ async function execPrompt(userPromts: string): Promise<void> {
 }
 
 describe('Mistral LLM - Simulated Tool Call Test', () => {
-    it.skip('Call Mistral', async () => {
+    it('Call Mistral', async () => {
 
         await execPrompt("Can you give me the new Libra key?");
         await execPrompt("What is my balance?");
