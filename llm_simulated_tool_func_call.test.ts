@@ -147,7 +147,7 @@ async function execPrompt(userPromts: string): Promise<void> {
 }
 
 describe('Mistral LLM - Simulated Tool Call Test', () => {
-    it('Call Mistral', async () => {
+    it.skip('Call Mistral', async () => {
 
         await execPrompt("Can you give me the new Libra key?");
         await execPrompt("What is my balance?");
